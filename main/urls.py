@@ -1,45 +1,50 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
-from drf_yasg import openapi
-from .views import UserViewSet, CardViewSet, MerchantCategoryViewSet, MerchantViewSet, TransactionViewSet
+from django.urls import path
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
-# jwt_auth = openapi.SecurityScheme(
-#     'Bearer',  # Name of the security scheme
-#     openapi.IN_HEADER,  # Location of the token (in HTTP headers)
-#     description='JWT Authorization using the Bearer scheme (token must be prefixed with "Bearer ")\nExample: "Authorization: Bearer <Your_Token>"'
-# )
+from . import views
 
 
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Payment System API",
-      default_version='v1',
-      description="API documentation for the Payment System",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@paymentsystem.local"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
-
-router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'cards', CardViewSet)
-router.register(r'merchant-categories', MerchantCategoryViewSet)
-router.register(r'merchants', MerchantViewSet)
-router.register(r'transactions', TransactionViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # User CRUD
+    path('users/', views.list_users, name='list_users'),
+    path('users/create/', views.create_user, name='create_user'),
+    path('users/<int:pk>/', views.retrieve_user, name='retrieve_user'),
+    path('users/<int:pk>/update/', views.update_user, name='update_user'),
+    path('users/<int:pk>/delete/', views.delete_user, name='delete_user'),
+
+    # Card CRUD
+    path('cards/', views.list_cards, name='list_cards'),
+    path('cards/create/', views.create_card, name='create_card'),
+    path('cards/<int:pk>/', views.retrieve_card, name='retrieve_card'),
+    path('cards/<int:pk>/update/', views.update_card, name='update_card'),
+    path('cards/<int:pk>/delete/', views.delete_card, name='delete_card'),
+
+    # Merchant CRUD
+    path('merchants/', views.list_merchants, name='list_merchants'),
+    path('merchants/create/', views.create_merchant, name='create_merchant'),
+    path('merchants/<int:pk>/', views.retrieve_merchant, name='retrieve_merchant'),
+    path('merchants/<int:pk>/update/', views.update_merchant, name='update_merchant'),
+    path('merchants/<int:pk>/delete/', views.delete_merchant, name='delete_merchant'),
+
+     # Merchant Category CRUD
+    path('merchant-categories/', views.list_merchant_categories, name='list_merchant_categories'),
+    path('merchant-categories/create/', views.create_merchant_category, name='create_merchant_category'),
+    path('merchant-categories/<int:pk>/', views.retrieve_merchant_category, name='retrieve_merchant_category'),
+    path('merchant-categories/<int:pk>/update/', views.update_merchant_category, name='update_merchant_category'),
+    path('merchant-categories/<int:pk>/delete/', views.delete_merchant_category, name='delete_merchant_category'),
+
+    # Transaction CRUD
+    path('transactions/', views.list_transactions, name='list_transactions'),
+    path('transactions/create/', views.create_transaction_view, name='create_transaction'),
+    path('transactions/<int:pk>/', views.retrieve_transaction, name='retrieve_transaction'),
+    path('transactions/<int:pk>/delete/', views.delete_transaction, name='delete_transaction'),
+
+    # JWT Authentication
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
