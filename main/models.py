@@ -4,16 +4,16 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     phone_number = models.CharField(max_length=15, unique=True)
 
-     # Set related_name to avoid clashes with the default User model
+
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='custom_user_set',  # Change this to a custom related name
+        related_name='custom_user_set',
         blank=True,
     )
 
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='custom_user_permissions',  # Change this to a custom related name
+        related_name='custom_user_permissions',
         blank=True,
     )
 
