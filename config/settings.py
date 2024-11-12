@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # installed apps
     'rest_framework',
     'drf_yasg',
+    'rest_framework_simplejwt',
     # my apps
     'main.apps.MainConfig'
 ]
@@ -88,10 +89,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Use JWT Authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Default permission class for authenticated users
+        'rest_framework.permissions.IsAuthenticated', 
     ],
 }
 

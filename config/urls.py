@@ -19,15 +19,9 @@ from django.urls import path, include
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-jwt_auth = openapi.SecurityScheme(
-    type=openapi.TYPE_API_KEY,
-    in_=openapi.IN_HEADER,
-    name='Authorization',
-    description="JWT authorization using Bearer token. Example: 'Bearer <your_token>'"
-)
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -39,9 +33,7 @@ schema_view = get_schema_view(
       license=openapi.License(name="BSD License"),
    ),
    public=True,
-   permission_classes=(IsAuthenticated,),  # You can adjust this as per your requirements
-    authentication_classes=(JWTAuthentication,),  # Set authentication to JWT
-    security=[jwt_auth],
+   permission_classes=(AllowAny,),
 )
 
 urlpatterns = [
