@@ -53,7 +53,7 @@ def create_transaction(user, merchant, card, amount, phone_number, device_id, ip
         device_id=device_id,
         ip_address=ip_address
     )
-    # Deduct balance from the user's card
+    
     card.balance -= amount
     card.save()
 
@@ -180,7 +180,7 @@ def update_card(request, pk):
         return Response({'error': 'Card not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
-# Delete Card
+
 @api_view(['DELETE'])
 def delete_card(request, pk):
     """
