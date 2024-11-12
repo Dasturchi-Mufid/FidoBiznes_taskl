@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     phone_number = models.CharField(max_length=15, unique=True)
 
-
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='custom_user_set',
